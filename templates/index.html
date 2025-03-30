@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcrever - Conversor de Áudio/Vídeo para Texto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-dark: #3546cc;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --background-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --light-text: #6c757d;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --border-radius: 12px;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Layout de duas colunas */
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+        }
+        
+        /* Ajuste para telas menores */
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        .left-column, .right-column {
+            flex: 1;
+            min-width: 0; /* Para evitar estouro em conteúdos grandes */
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            height: 100%;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .result-card {
+            height: calc(100% - 2rem); 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upload-container {
+            text-align: center;
+            padding: 3rem 2rem;
+            border: 2px dashed rgba(67, 97, 238, 0.3);
+            border-radius: var(--border-radius);
+            background-color: rgba(67, 97, 238, 0.03);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-container:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .upload-container.dragging {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            font-size: 4.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.1));
+            transition: var(--transition);
+        }
+
+        .upload-container:hover .upload-icon {
+            transform: translateY(-5px);
+        }
+
+        .upload-text {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .formats-info {
+            margin-top: 1rem;
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .submit-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(67, 97, 238, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .result-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0; /* Importante para o flexbox funcionar corretamente */
+        }
+
+        .result-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title h2 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .copy-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 3px 8px rgba(72, 149, 239, 0.3);
+        }
+
+        .copy-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(72, 149, 239, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(1px);
+        }
+
+        .result-text {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 300px;
+            background-color: rgba(0, 0, 0, 0.02);
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .selected-file {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .file-icon {
+            margin-right: 0.8rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .file-name {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+
+        .remove-file {
+            color: var(--error-color);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 5px;
+            border-radius: 50%;
+            line-height: 1;
+        }
+
+        .remove-file:hover {
+            background-color: rgba(244, 67, 54, 0.1);
+            transform: scale(1.1);
+        }
+
+        .status {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .status.loading {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background-color: rgba(67, 97, 238, 0.05);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .status.success {
+            display: block;
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .status.error {
+            display: block;
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 1.8rem;
+            height: 1.8rem;
+            border: 3px solid rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--light-text);
+            margin-top: auto;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Novos estilos para resultado */
+        .empty-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--light-text);
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .empty-result i {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-result h3 {
+            margin-bottom: 1rem;
+            color: #555;
+            font-size: 1.5rem;
+        }
+        
+        .empty-result p {
+            max-width: 450px;
+            line-height: 1.6;
+        }
+        
+        /* Efeito de onda de carregamento */
+        .wave {
+            width: 5px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        .wave-container {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Seletores de modelo e idioma */
+        .model-selector, .language-selector {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.02);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .model-selector h3, .language-selector h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .model-options, .language-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .model-option, .language-option {
+            flex: 1;
+            min-width: 110px;
+        }
+
+        .model-option input[type="radio"], .language-option input[type="radio"] {
+            display: none;
+        }
+
+        .model-option label, .language-option label {
+            display: block;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            background-color: white;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .model-option label:hover, .language-option label:hover {
+            border-color: rgba(67, 97, 238, 0.3);
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
+        .model-option input[type="radio"]:checked + label, 
+        .language-option input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
+        }
+
+        .model-description, .language-description {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--light-text);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: rgba(67, 97, 238, 0.03);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .progress-step {
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-step:before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Seletor de idioma customizado */
+        .language-select-container {
+            margin-top: 1.2rem;
+        }
+
+        .language-select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            color: var(--text-color);
+            background-color: white;
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .language-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .detected-language {
+            background-color: rgba(67, 97, 238, 0.05);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            font-style: italic;
+            color: #555;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                margin: 1.5rem auto;
+                padding: 0 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .upload-container {
+                padding: 2rem 1rem;
+            }
+            
+            .upload-icon {
+                font-size: 3.5rem;
+            }
+            
+            .model-options, .language-options {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .model-option, .language-option {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Transcrever</h1>
+        <p>Conversor inteligente de áudio e vídeo para texto usando tecnologia avançada de IA</p>
+    </div>
+
+    <div class="container">
+        <!-- Coluna esquerda: configurações e upload -->
+        <div class="left-column">
+            <div class="card">
+                <form id="uploadForm">
+                    <div id="uploadContainer" class="upload-container">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3 class="upload-text">Arraste e solte seu arquivo aqui ou clique para selecionar</h3>
+                        <input type="file" id="mediaFile" name="file" class="file-input" accept="audio/*,video/*,.ts,.mp3,.wav,.mp4,.mov,.avi,.mkv,.wmv">
+                        <div class="formats-info">
+                            Formatos suportados: MP3, WAV, MP4, MOV, AVI, MKV, WMV, TS
+                        </div>
+                    </div>
+                    
+                    <div id="selectedFile" style="display: none;" class="selected-file">
+                        <i class="fas fa-file-audio file-icon"></i>
+                        <span id="fileName" class="file-name"></span>
+                        <button type="button" id="removeFile" class="remove-file">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Seletor de modelo -->
+                    <div class="model-selector">
+                        <h3>Selecione o modelo de transcrição:</h3>
+                        <div class="model-options">
+                            <div class="model-option">
+                                <input type="radio" id="base-model" name="model" value="base" checked>
+                                <label for="base-model">Base</label>
+                                <div class="model-description">Rápido, menor precisão</div>
+                            </div>
+                            <div class="model-option">
+                                <input type="radio" id="small-model" name="model" value="small">
+                                <label for="small-model">Small</label>
+                                <div class="model-description">Equilibrado</div>
+                            </div>
+                            <div class="model-option">
+                                <input type="radio" id="medium-model" name="model" value="medium">
+                                <label for="medium-model">Medium</label>
+                                <div class="model-description">Boa precisão</div>
+                            </div>
+                            <div class="model-option">
+                                <input type="radio" id="large-model" name="model" value="large">
+                                <label for="large-model">Large</label>
+                                <div class="model-description">Alta precisão</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seletor de idioma -->
+                    <div class="language-selector">
+                        <h3>Idioma da transcrição:</h3>
+                        <div class="language-options">
+                            <div class="language-option">
+                                <input type="radio" id="auto-detect" name="language_mode" value="auto" checked>
+                                <label for="auto-detect">Detecção automática</label>
+                                <div class="language-description">Identifica o idioma automaticamente</div>
+                            </div>
+                            <div class="language-option">
+                                <input type="radio" id="specify-language" name="language_mode" value="specify">
+                                <label for="specify-language">Especificar idioma</label>
+                                <div class="language-description">Selecione o idioma do áudio/vídeo</div>
+                            </div>
+                        </div>
+                        
+                        <div id="languageSelectContainer" class="language-select-container" style="display: none;">
+                            <select id="languageSelect" class="language-select">
+                                <option value="af">Africâner</option>
+                                <option value="ar">Árabe</option>
+                                <option value="hy">Armênio</option>
+                                <option value="az">Azerbaijano</option>
+                                <option value="be">Bielorrusso</option>
+                                <option value="bs">Bósnio</option>
+                                <option value="bg">Búlgaro</option>
+                                <option value="ca">Catalão</option>
+                                <option value="zh">Chinês</option>
+                                <option value="hr">Croata</option>
+                                <option value="cs">Tcheco</option>
+                                <option value="da">Dinamarquês</option>
+                                <option value="nl">Holandês</option>
+                                <option value="en">Inglês</option>
+                                <option value="et">Estoniano</option>
+                                <option value="fi">Finlandês</option>
+                                <option value="fr">Francês</option>
+                                <option value="gl">Galego</option>
+                                <option value="de">Alemão</option>
+                                <option value="el">Grego</option>
+                                <option value="he">Hebraico</option>
+                                <option value="hi">Hindi</option>
+                                <option value="hu">Húngaro</option>
+                                <option value="is">Islandês</option>
+                                <option value="id">Indonésio</option>
+                                <option value="it">Italiano</option>
+                                <option value="ja">Japonês</option>
+                                <option value="kn">Kannada</option>
+                                <option value="kk">Cazaque</option>
+                                <option value="ko">Coreano</option>
+                                <option value="lv">Letão</option>
+                                <option value="lt">Lituano</option>
+                                <option value="mk">Macedônio</option>
+                                <option value="ms">Malaio</option>
+                                <option value="mr">Marathi</option>
+                                <option value="mi">Maori</option>
+                                <option value="ne">Nepalês</option>
+                                <option value="no">Norueguês</option>
+                                <option value="fa">Persa</option>
+                                <option value="pl">Polonês</option>
+                                <option value="pt" selected>Português</option>
+                                <option value="ro">Romeno</option>
+                                <option value="ru">Russo</option>
+                                <option value="sr">Sérvio</option>
+                                <option value="sk">Eslovaco</option>
+                                <option value="sl">Esloveno</option>
+                                <option value="es">Espanhol</option>
+                                <option value="sw">Suaíli</option>
+                                <option value="sv">Sueco</option>
+                                <option value="tl">Tagalo</option>
+                                <option value="ta">Tâmil</option>
+                                <option value="th">Tailandês</option>
+                                <option value="tr">Turco</option>
+                                <option value="uk">Ucraniano</option>
+                                <option value="ur">Urdu</option>
+                                <option value="vi">Vietnamita</option>
+                                <option value="cy">Galês</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="loadingStatus" class="status loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Preparando para transcrição...</span>
+                    </div>
+
+                    <!-- Barra de progresso -->
+                    <div id="progressContainer" class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="progressStep" class="progress-step">Processando arquivo...</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                    </div>
+
+                    <div id="errorStatus" class="status error" style="display: none;"></div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn" disabled>Transcrever</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Coluna direita: resultados -->
+        <div class="right-column">
+            <div class="card result-card">
+                <div class="result-title">
+                    <h2>Resultado da transcrição</h2>
+                    <button id="copyBtn" class="copy-btn" style="display: none;">
+                        <i class="far fa-copy"></i>
+                        Copiar texto
+                    </button>
+                </div>
+                
+                <!-- Container para resultado ou mensagem vazia -->
+                <div class="result-container">
+                    <!-- Mensagem quando não há resultado -->
+                    <div id="emptyResult" class="empty-result">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Nenhuma transcrição disponível</h3>
+                        <p>Faça o upload de um arquivo de áudio ou vídeo e clique em "Transcrever" para ver o resultado aqui.</p>
+                    </div>
+                    
+                    <!-- Texto da transcrição -->
+                    <div id="result" class="result-text" style="display: none;"></div>
+                    
+                    <!-- Informação sobre idioma detectado -->
+                    <div id="detectedLanguage" class="detected-language" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 Transcrever - Um aplicativo de transcrição de áudio e vídeo usando tecnologia Whisper
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadContainer = document.getElementById('uploadContainer');
+        const mediaFile = document.getElementById('mediaFile');
+        const selectedFile = document.getElementById('selectedFile');
+        const fileName = document.getElementById('fileName');
+        const removeFile = document.getElementById('removeFile');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingStatus = document.getElementById('loadingStatus');
+        const errorStatus = document.getElementById('errorStatus');
+        const resultText = document.getElementById('result');
+        const emptyResult = document.getElementById('emptyResult');
+        const copyBtn = document.getElementById('copyBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressStep = document.getElementById('progressStep');
+        const languageModeRadios = document.querySelectorAll('input[name="language_mode"]');
+        const languageSelectContainer = document.getElementById('languageSelectContainer');
+        const languageSelect = document.getElementById('languageSelect');
+        const detectedLanguage = document.getElementById('detectedLanguage');
+
+        // Mostrar/ocultar o seletor de idioma baseado na seleção do modo
+        languageModeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'specify') {
+                    languageSelectContainer.style.display = 'block';
+                } else {
+                    languageSelectContainer.style.display = 'none';
+                }
+            });
+        });
+
+        // Eventos de drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            uploadContainer.classList.add('dragging');
+        }
+
+        function unhighlight() {
+            uploadContainer.classList.remove('dragging');
+        }
+
+        // Lidar com soltar o arquivo
+        uploadContainer.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                mediaFile.files = files;
+                updateFileDisplay(files[0]);
+            }
+        }
+
+        // Lidar com seleção de arquivo
+        mediaFile.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                updateFileDisplay(this.files[0]);
+            }
+        });
+
+        // Atualizar a exibição de arquivo selecionado
+        function updateFileDisplay(file) {
+            fileName.textContent = file.name;
+            selectedFile.style.display = 'flex';
+            submitBtn.disabled = false;
+            
+            // Identificar o tipo de arquivo e atualizar o ícone
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const isVideo = ['mp4', 'mov', 'avi', 'mkv', 'wmv', 'ts'].includes(fileExtension);
+            
+            if (isVideo) {
+                document.querySelector('.file-icon').className = 'fas fa-file-video file-icon';
+            } else {
+                document.querySelector('.file-icon').className = 'fas fa-file-audio file-icon';
+            }
+        }
+
+        // Remover arquivo
+        removeFile.addEventListener('click', function() {
+            mediaFile.value = '';
+            selectedFile.style.display = 'none';
+            submitBtn.disabled = true;
+        });
+
+        // Função para atualizar o progresso
+        function updateProgress(percent, step) {
+            progressFill.style.width = percent + '%';
+            progressPercent.textContent = percent + '%';
+            if (step) {
+                progressStep.textContent = step;
+            }
+        }
+
+        // Polling para verificar o progresso da transcrição
+        function pollProgress(taskId) {
+            const progressInterval = setInterval(() => {
+                fetch(`/progress/${taskId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'completed') {
+                            clearInterval(progressInterval);
+                            updateProgress(100, 'Concluído!');
+                            loadingStatus.style.display = 'none';
+                            progressContainer.style.display = 'block';
+                            
+                            // Atualiza o texto da transcrição
+                            resultText.innerText = data.text;
+                            
+                            // Mostra o resultado e esconde a mensagem vazia
+                            emptyResult.style.display = 'none';
+                            resultText.style.display = 'block';
+                            copyBtn.style.display = 'flex';
+                            
+                            // Mostra o idioma detectado, se disponível
+                            if (data.detected_language) {
+                                detectedLanguage.textContent = `Idioma detectado: ${data.detected_language}`;
+                                detectedLanguage.style.display = 'block';
+                            }
+                            
+                            submitBtn.disabled = false;
+                        } else if (data.status === 'error') {
+                            clearInterval(progressInterval);
+                            progressContainer.style.display = 'none';
+                            loadingStatus.style.display = 'none';
+                            showError(data.error || 'Erro ao processar o arquivo');
+                            submitBtn.disabled = false;
+                        } else if (data.status === 'processing') {
+                            updateProgress(data.progress, data.step);
+                            progressContainer.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar progresso:', error);
+                    });
+            }, 1000);
+        }
+
+        // Enviar formulário
+        uploadForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const fileInput = document.getElementById('mediaFile');
+            if (fileInput.files.length === 0) {
+                showError('Por favor, selecione um arquivo de áudio ou vídeo.');
+                return;
+            }
+            
+            // Obter o modelo selecionado
+            const selectedModel = document.querySelector('input[name="model"]:checked').value;
+            
+            // Obter as configurações de idioma
+            const languageMode = document.querySelector('input[name="language_mode"]:checked').value;
+            const selectedLanguage = languageMode === 'auto' ? null : languageSelect.value;
+            
+            // Mostrar status de carregamento
+            loadingStatus.style.display = 'flex';
+            errorStatus.style.display = 'none';
+            progressContainer.style.display = 'none';
+            submitBtn.disabled = true;
+            
+            // Resetar a barra de progresso
+            updateProgress(0, 'Iniciando...');
+            
+            var formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('model', selectedModel);
+            formData.append('language_mode', languageMode);
+            if (selectedLanguage) {
+                formData.append('language', selectedLanguage);
+            }
+            
+            fetch('/transcribe', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    loadingStatus.style.display = 'none';
+                    progressContainer.style.display = 'none';
+                    showError(data.error);
+                    submitBtn.disabled = false;
+                } else if (data.task_id) {
+                    // Se temos um ID de tarefa, vamos monitorar o progresso
+                    pollProgress(data.task_id);
+                } else {
+                    // Compatibilidade com a versão anterior sem progresso
+                    loadingStatus.style.display = 'none';
+                    progressContainer.style.display = 'none';
+                    submitBtn.disabled = false;
+                    
+                    resultText.innerText = data.text;
+                    emptyResult.style.display = 'none';
+                    resultText.style.display = 'block';
+                    copyBtn.style.display = 'flex';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                loadingStatus.style.display = 'none';
+                progressContainer.style.display = 'none';
+                submitBtn.disabled = false;
+                showError('Ocorreu um erro durante a transcrição. Tente novamente mais tarde.');
+            });
+        });
+
+        // Copiar resultado
+        copyBtn.addEventListener('click', function() {
+            const text = resultText.textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(function() {
+                    copyBtn.innerHTML = originalText;
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        });
+
+        // Mostrar erro
+        function showError(message) {
+            errorStatus.textContent = message;
+            errorStatus.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
