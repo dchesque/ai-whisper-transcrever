@@ -1,0 +1,27 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo com leve gradiente -->
+  <rect width="400" height="300" rx="20" fill="url(#paint0_linear)" />
+  
+  <!-- Forma de onda de áudio estilizada -->
+  <path d="M50 150 Q 80 100, 100 150 Q 120 200, 140 150 Q 160 100, 180 150 Q 200 200, 220 150 Q 240 100, 260 150 Q 280 200, 300 150 Q 320 100, 350 150" stroke="#4F46E5" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Linhas de texto simulando transcrição -->
+  <rect x="80" y="190" width="240" height="6" rx="3" fill="#6366F1" opacity="0.8" />
+  <rect x="80" y="210" width="190" height="6" rx="3" fill="#6366F1" opacity="0.6" />
+  <rect x="80" y="230" width="220" height="6" rx="3" fill="#6366F1" opacity="0.7" />
+  <rect x="80" y="250" width="160" height="6" rx="3" fill="#6366F1" opacity="0.5" />
+  
+  <!-- Ícone de IA -->
+  <circle cx="200" cy="80" r="30" fill="#4F46E5" />
+  <path d="M190 75 L190 85 L210 85 L210 75 Z" fill="white" />
+  <path d="M185 70 L215 70 L215 90 L185 90 Z" stroke="white" stroke-width="2" fill="none" />
+  <path d="M200 60 L200 70 M200 90 L200 100 M180 80 L185 80 M215 80 L220 80" stroke="white" stroke-width="2" />
+  
+  <!-- Definições de gradiente -->
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="400" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" />
+      <stop offset="1" stop-color="#EEF2FF" />
+    </linearGradient>
+  </defs>
+</svg> 

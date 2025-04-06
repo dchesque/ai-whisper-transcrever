@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Login - TranscreveAI{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Acesse sua conta</h1>
+        <p class="auth-description">Entre com seu e-mail para receber um link mágico de acesso.</p>
+        
+        <div class="alert alert--info">
+            <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="alert-content">
+                <strong>Aviso:</strong> O sistema foi simplificado! Agora utilizamos apenas o método de "Link Mágico" para autenticação - mais seguro e simples.
+            </div>
+        </div>
+        
+        {% if error %}
+        <div class="alert alert--error">
+            <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div class="alert-content">{{ error }}</div>
+        </div>
+        {% endif %}
+        
+        {% if success %}
+        <div class="alert alert--success">
+            <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="alert-content">{{ success }}</div>
+        </div>
+        {% endif %}
+        
+        <div class="tab-content active" id="tab-magic-link">
+            <form method="post" class="auth-form" id="magicLinkForm">
+                <div class="input-group">
+                    <label for="email" class="field-label">Seu e-mail</label>
+                    <input type="email" id="email" name="email" class="input" placeholder="seuemail@exemplo.com" required>
+                </div>
+                
+                <button type="submit" class="btn btn--primary btn--full" id="sendLinkBtn">
+                    <span class="btn-text">Receber link mágico</span>
+                    <span class="btn-loading hidden">
+                        <span class="loader loader--sm"></span>
+                        <span>Enviando...</span>
+                    </span>
+                </button>
+            </form>
+            
+            <div class="auth-info">
+                <p>Você receberá um e-mail com um link seguro para acessar sua conta instantaneamente, sem precisar de senha.</p>
+            </div>
+        </div>
+        
+        <div class="email-sent-container hidden" id="emailSentContainer">
+            <div class="email-sent-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+                </svg>
+            </div>
+            <h2 class="email-sent-title">Link mágico enviado!</h2>
+            <p class="email-sent-description">Acabamos de enviar um e-mail com seu link de acesso para <strong id="userEmail"></strong>.</p>
+            <p class="email-sent-check">Verifique sua caixa de entrada e clique no link para acessar sua conta.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--spacing-8) var(--spacing-4);
+        min-height: calc(100vh - var(--header-height) - 300px);
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 450px;
+        padding: var(--spacing-8);
+        background-color: var(--color-surface);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--color-border);
+    }
+
+    .auth-title {
+        margin-bottom: var(--spacing-3);
+        text-align: center;
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-primary);
+    }
+    
+    .auth-description {
+        text-align: center;
+        margin-bottom: var(--spacing-6);
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-md);
+    }
+
+    .auth-form {
+        display: grid;
+        gap: var(--spacing-5);
+    }
+
+    .auth-info {
+        margin-top: var(--spacing-6);
+        padding: var(--spacing-4);
+        background-color: var(--color-background-subtle);
+        border-radius: var(--border-radius-md);
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+    
+    .alert {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--spacing-3);
+        padding: var(--spacing-3) var(--spacing-4);
+        margin-bottom: var(--spacing-4);
+        border-radius: var(--border-radius-md);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+    
+    .alert-icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    
+    .alert-content {
+        flex: 1;
+    }
+    
+    .alert--error {
+        background-color: var(--color-danger-50);
+        color: var(--color-danger-700);
+        border-left: 3px solid var(--color-danger);
+    }
+    
+    .alert--error .alert-icon {
+        color: var(--color-danger);
+    }
+    
+    .alert--success {
+        background-color: var(--color-success-50);
+        color: var(--color-success-700);
+        border-left: 3px solid var(--color-success);
+    }
+    
+    .alert--success .alert-icon {
+        color: var(--color-success);
+    }
+    
+    .alert--info {
+        background-color: var(--color-primary-50);
+        color: var(--color-primary-700);
+        border-left: 3px solid var(--color-primary);
+    }
+    
+    .alert--info .alert-icon {
+        color: var(--color-primary);
+    }
+    
+    .hidden {
+        display: none !important;
+    }
+    
+    .btn-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-2);
+    }
+    
+    .loader--sm {
+        width: 1rem;
+        height: 1rem;
+        border-width: 2px;
+    }
+    
+    /* Email enviado */
+    .email-sent-container {
+        text-align: center;
+    }
+    
+    .email-sent-icon {
+        margin: 0 auto var(--spacing-4);
+        color: var(--color-primary);
+        display: flex;
+        justify-content: center;
+    }
+    
+    .email-sent-title {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--spacing-3);
+        color: var(--color-text-primary);
+    }
+    
+    .email-sent-description {
+        margin-bottom: var(--spacing-3);
+        color: var(--color-text-secondary);
+    }
+    
+    .email-sent-check {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-sm);
+    }
+
+    @media (max-width: 640px) {
+        .auth-card {
+            padding: var(--spacing-6) var(--spacing-4);
+        }
+        
+        .auth-title {
+            font-size: var(--font-size-xl);
+        }
+        
+        .auth-description {
+            font-size: var(--font-size-sm);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const magicLinkForm = document.getElementById('magicLinkForm');
+        const emailInput = document.getElementById('email');
+        const sendLinkBtn = document.getElementById('sendLinkBtn');
+        const btnText = document.querySelector('.btn-text');
+        const btnLoading = document.querySelector('.btn-loading');
+        const emailSentContainer = document.getElementById('emailSentContainer');
+        const userEmailSpan = document.getElementById('userEmail');
+        
+        const errorContainer = document.createElement('div');
+        errorContainer.className = 'alert alert--error hidden';
+        errorContainer.innerHTML = `
+            <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div class="alert-content" id="errorMessage"></div>
+        `;
+        
+        // Adicionar container de erro antes do form
+        magicLinkForm.parentNode.insertBefore(errorContainer, magicLinkForm);
+        
+        magicLinkForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Esconder qualquer mensagem de erro anterior
+            errorContainer.classList.add('hidden');
+            
+            // Validar email
+            const email = emailInput.value.trim();
+            if (!email) {
+                showError('Por favor, informe seu e-mail.');
+                return;
+            }
+            
+            // Mostrar estado de carregamento
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+            sendLinkBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/auth/send-magic-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Mostrar mensagem de e-mail enviado
+                    magicLinkForm.classList.add('hidden');
+                    emailSentContainer.classList.remove('hidden');
+                    userEmailSpan.textContent = email;
+                    
+                    // Registrar evento de Magic Link enviado
+                    console.log('Magic link enviado com sucesso para:', email);
+                } else {
+                    // Se houver erro específico da API
+                    if (data.error) {
+                        showError(data.error);
+                    } else {
+                        showError('Erro ao enviar o link de acesso. Por favor, tente novamente.');
+                    }
+                    
+                    // Se for erro de rate limit, desabilitar o botão pelo tempo indicado
+                    if (response.status === 429 && data.wait_time) {
+                        const waitTime = data.wait_time;
+                        sendLinkBtn.disabled = true;
+                        
+                        let timeLeft = waitTime;
+                        const intervalId = setInterval(() => {
+                            timeLeft--;
+                            btnText.textContent = `Tente novamente em ${timeLeft}s`;
+                            
+                            if (timeLeft <= 0) {
+                                clearInterval(intervalId);
+                                btnText.textContent = 'Receber link mágico';
+                                sendLinkBtn.disabled = false;
+                            }
+                        }, 1000);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                showError('Erro ao enviar o link de acesso. Por favor, tente novamente.');
+            } finally {
+                // Restaurar estado do botão (exceto se desabilitado por rate limit)
+                btnLoading.classList.add('hidden');
+                btnText.classList.remove('hidden');
+                if (!sendLinkBtn.disabled) {
+                    sendLinkBtn.disabled = false;
+                }
+            }
+        });
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            errorContainer.classList.remove('hidden');
+            
+            // Restaurar estado do botão
+            btnLoading.classList.add('hidden');
+            btnText.classList.remove('hidden');
+            sendLinkBtn.disabled = false;
+        }
+    });
+</script>
+{% endblock %} 

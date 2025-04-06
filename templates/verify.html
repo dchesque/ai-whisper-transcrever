@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Verificando Acesso - TranscreveAI{% endblock %}
+
+{% block content %}
+<div class="verify-container">
+    <div class="verify-card">
+        <div id="loadingState" class="verify-state active">
+            <div class="loading-spinner"></div>
+            <h1 class="verify-title">Verificando seu acesso</h1>
+            <p class="verify-description">Por favor, aguarde enquanto verificamos seu link de acesso...</p>
+        </div>
+        
+        <div id="successState" class="verify-state">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                </div>
+            </div>
+            <h1 class="verify-title">Acesso confirmado!</h1>
+            <p class="verify-description">Seja bem-vindo ao TranscreveAI!</p>
+            <p class="redirect-message">Você será redirecionado em instantes...</p>
+        </div>
+        
+        <div id="errorState" class="verify-state">
+            <div class="error-icon">
+                <span class="icon-line line-left"></span>
+                <span class="icon-line line-right"></span>
+            </div>
+            <h1 class="verify-title">Link inválido</h1>
+            <p class="verify-description">O link que você usou é inválido ou já expirou.</p>
+            <a href="{{ url_for('login') }}" class="btn btn--primary">Voltar para o login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verify-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        padding: var(--spacing-6) var(--spacing-4);
+    }
+
+    .verify-card {
+        width: 100%;
+        max-width: 450px;
+        padding: var(--spacing-8);
+        background-color: var(--color-surface);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--color-border);
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .verify-state {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .verify-state.active {
+        display: block;
+        opacity: 1;
+    }
+
+    .verify-title {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        margin: var(--spacing-4) 0 var(--spacing-3);
+        color: var(--color-text-primary);
+    }
+
+    .verify-description {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-md);
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .redirect-message {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        margin-top: var(--spacing-6);
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+        border: 4px solid var(--color-border);
+        border-top-color: var(--color-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Success checkmark animation */
+    .success-checkmark {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+
+    .check-icon {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        border-radius: 50%;
+        box-sizing: content-box;
+        border: 4px solid var(--color-success);
+    }
+
+    .check-icon::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: -2px;
+        width: 30px;
+        height: 15px;
+        border-style: solid;
+        border-width: 0 0 4px 4px;
+        border-color: var(--color-success);
+        transform-origin: 100% 100%;
+        transform: rotate(-45deg);
+        opacity: 0;
+        animation: checkmark 0.8s ease forwards;
+    }
+
+    @keyframes checkmark {
+        0% {
+            height: 0;
+            width: 0;
+            opacity: 0;
+        }
+        40% {
+            height: 0;
+            width: 30px;
+            opacity: 1;
+        }
+        100% {
+            height: 15px;
+            width: 30px;
+            opacity: 1;
+        }
+    }
+
+    /* Error icon */
+    .error-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 50%;
+        box-sizing: content-box;
+        border: 4px solid var(--color-danger);
+    }
+
+    .error-icon .icon-line {
+        position: absolute;
+        height: 4px;
+        width: 40px;
+        background-color: var(--color-danger);
+        border-radius: 2px;
+        top: 37px;
+        left: 20px;
+    }
+
+    .error-icon .line-left {
+        transform: rotate(45deg);
+        animation: error-left 0.6s forwards;
+    }
+
+    .error-icon .line-right {
+        transform: rotate(-45deg);
+        animation: error-right 0.6s forwards;
+    }
+
+    @keyframes error-left {
+        from {
+            transform: rotate(45deg) scale(0);
+        }
+        to {
+            transform: rotate(45deg) scale(1);
+        }
+    }
+
+    @keyframes error-right {
+        from {
+            transform: rotate(-45deg) scale(0);
+        }
+        to {
+            transform: rotate(-45deg) scale(1);
+        }
+    }
+
+    /* Botão */
+    .btn {
+        margin-top: var(--spacing-4);
+    }
+
+    @media (max-width: 640px) {
+        .verify-card {
+            padding: var(--spacing-6) var(--spacing-4);
+        }
+        
+        .verify-title {
+            font-size: var(--font-size-lg);
+        }
+        
+        .verify-description {
+            font-size: var(--font-size-sm);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const params = new URLSearchParams(window.location.search);
+        
+        // Função para extrair tokens da URL e fragmentos
+        function extractTokenFromURL() {
+            // Verificar parâmetros na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            let token = urlParams.get('token_hash') || urlParams.get('token') || urlParams.get('access_token');
+            
+            // Se não encontrado nos parâmetros, verificar no fragmento (#)
+            if (!token && window.location.hash) {
+                try {
+                    // Tentar como URLSearchParams
+                    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                    token = hashParams.get('token_hash') || hashParams.get('token') || hashParams.get('access_token');
+                    
+                    // Se ainda não encontrado, tentar regex para extrair access_token
+                    if (!token) {
+                        const hashStr = window.location.hash.substring(1);
+                        const accessTokenMatch = hashStr.match(/access_token=([^&]+)/);
+                        if (accessTokenMatch && accessTokenMatch[1]) {
+                            token = accessTokenMatch[1];
+                        }
+                        
+                        // Tentar encontrar qualquer outro formato de token
+                        if (!token) {
+                            const tokenMatch = hashStr.match(/token[^=]*=([^&]+)/i);
+                            if (tokenMatch && tokenMatch[1]) {
+                                token = tokenMatch[1];
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Erro ao analisar fragmento da URL:", e);
+                }
+            }
+            
+            return token;
+        }
+        
+        // Extrair token e tipo
+        const token = extractTokenFromURL();
+        const type = params.get('type') || 'magiclink';
+        
+        console.log("Token encontrado:", token ? `${token.substring(0, 15)}...` : "Nenhum token");
+        console.log("Tipo de token:", type);
+        console.log("URL completa:", window.location.href);
+        
+        const loadingState = document.getElementById('loadingState');
+        const successState = document.getElementById('successState');
+        const errorState = document.getElementById('errorState');
+        
+        // Função para trocar os estados com animação
+        function showState(stateElement) {
+            // Esconder o estado atual
+            document.querySelector('.verify-state.active').classList.remove('active');
+            
+            // Mostrar o novo estado após um pequeno delay
+            setTimeout(() => {
+                stateElement.classList.add('active');
+            }, 300);
+        }
+        
+        if (!token) {
+            console.error("Nenhum token encontrado na URL");
+            showState(errorState);
+            return;
+        }
+
+        try {
+            console.log("Enviando token para verificação");
+            const response = await fetch('/auth/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    token: token,
+                    type: type
+                }),
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                console.log("Verificação bem-sucedida:", data);
+                showState(successState);
+                
+                // Redirecionar após 3 segundos
+                setTimeout(() => {
+                    window.location.href = "{{ url_for('dashboard') }}";
+                }, 3000);
+            } else {
+                console.error("Erro na verificação:", data.error);
+                showState(errorState);
+            }
+        } catch (error) {
+            console.error("Erro ao fazer a requisição:", error);
+            showState(errorState);
+        }
+    });
+</script>
+{% endblock %} 

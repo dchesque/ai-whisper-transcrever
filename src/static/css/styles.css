@@ -1,0 +1,691 @@
+:root {
+    /* Tema Preto e Branco (Minimalista) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f8f8;
+    --text-primary: #121212;
+    --text-secondary: #3a3a3a;
+    --text-muted: #6e6e6e;
+    --border-color: #e0e0e0;
+    --accent-color: #121212;
+    --accent-hover: #333333;
+    --danger-color: #cc0000;
+    --success-color: #007236;
+    --warning-color: #e69500;
+    --info-color: #0064ad;
+    --input-bg: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --card-hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+
+    /* Dimensões */
+    --header-height: 70px;
+    --container-max-width: 1200px;
+    --border-radius: 8px;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-secondary: #1a1a1a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    --border-color: #333333;
+    --accent-color: #ffffff;
+    --accent-hover: #dddddd;
+    --danger-color: #ff4d4d;
+    --success-color: #00cc7a;
+    --warning-color: #ffb43f;
+    --info-color: #33a1ff;
+    --input-bg: #2a2a2a;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --card-hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    --glass-bg: rgba(18, 18, 18, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* Tipografia */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Header com estilo minimalista preto e branco */
+header {
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.logo svg path {
+    fill: var(--text-primary);
+}
+
+.logo svg {
+    margin-right: 10px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    color: var(--text-primary);
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+}
+
+nav ul li a:hover {
+    color: var(--text-secondary);
+}
+
+nav ul li a.active {
+    color: var(--text-primary);
+}
+
+nav ul li a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+}
+
+/* Main */
+main {
+    flex: 1;
+    padding: 40px 0;
+}
+
+/* Layout de duas colunas */
+.transcription-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas de igual tamanho */
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Para dispositivos móveis, volta para uma coluna */
+@media (max-width: 992px) {
+    .transcription-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cards com design minimalista */
+.card {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 30px;
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.card:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.card-title {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.card-body {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+/* Forms com design minimalista */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Regras específicas para o layout minimalista de duas colunas */
+.column-left,
+.column-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botões com design minimalista melhorado */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+}
+
+/* File icon styling */
+.file-actions .btn-danger {
+    background-color: transparent;
+    color: var(--danger-color);
+    padding: 5px;
+    box-shadow: none;
+}
+
+.file-actions .btn-danger:hover {
+    background-color: rgba(204, 0, 0, 0.1);
+    transform: none;
+}
+
+/* Customização da área de drop de arquivos */
+.file-upload-label {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    position: relative;
+    background-color: var(--bg-secondary);
+}
+
+.file-upload-label:hover,
+.file-upload-label.highlight {
+    border-color: var(--accent-color);
+    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-3px);
+}
+
+.file-upload-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+/* Estilo para alerta de mensagens */
+.alert {
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    position: relative;
+    border-left: 3px solid;
+    background-color: var(--bg-secondary);
+}
+
+.alert-success {
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.alert-error {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.alert-warning {
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+}
+
+.close-alert {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.close-alert:hover {
+    opacity: 1;
+}
+
+/* Barra de ações para os botões de resultado */
+.actions-bar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Lista de PDFs gerados */
+.list-group {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.list-group-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    transition: all 0.3s ease;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.list-group-item:hover {
+    background-color: var(--bg-primary);
+}
+
+/* Settings section minimalista */
+.settings-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.setting-card {
+    padding: 15px;
+    margin-bottom: 0;
+    border: none;
+    box-shadow: none;
+    background-color: var(--bg-primary);
+}
+
+.setting-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Personalizar select */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+/* Footer minimalista */
+footer {
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 20px 0;
+    margin-top: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-links a {
+    margin-left: 20px;
+    color: var(--text-secondary);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .settings-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-bar {
+        flex-direction: column;
+    }
+    
+    .actions-bar > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .header-container {
+        padding: 0 15px;
+    }
+    
+    footer {
+        text-align: center;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-links {
+        margin-top: 10px;
+    }
+    
+    .footer-links a {
+        margin: 0 10px;
+    }
+}
+
+/* Alternar tema - design minimalista */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text-muted);
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.theme-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--bg-secondary);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .theme-slider {
+    background-color: var(--accent-color);
+}
+
+input:focus + .theme-slider {
+    box-shadow: 0 0 1px var(--accent-color);
+}
+
+input:checked + .theme-slider:before {
+    transform: translateX(26px);
+}
+
+/* Estilo para botões avançados */
+.btn-lg {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+}
+
+.btn-success:hover {
+    background-color: #005a2a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Estilos básicos para upload de arquivos */
+.file-upload-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-label p {
+    margin-bottom: 5px;
+}
+
+.file-types {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Lista de arquivos */
+.files-list {
+    margin-bottom: 30px;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.file-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.file-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--accent-color);
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.file-name {
+    font-weight: 500;
+    margin-bottom: 3px;
+    word-break: break-all;
+}
+
+.file-size {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Barra de progresso minimalista */
+.progress-container {
+    height: 8px;
+    background-color: var(--bg-primary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.progress-percentage {
+    text-align: center;
+    font-weight: 500;
+}
+
+.progress-info {
+    margin-bottom: 20px;
+}
+
+/* Área de texto da transcrição */
+.transcription-text {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    line-height: 1.5;
+} 

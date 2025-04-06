@@ -1,0 +1,185 @@
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    gap: var(--spacing-2);
+    border: none;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Variantes */
+.btn--primary {
+    background-color: var(--color-accent);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover:not(:disabled) {
+    opacity: 0.9;
+    box-shadow: var(--shadow-md);
+}
+
+.btn--secondary {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-primary);
+}
+
+.btn--secondary:hover:not(:disabled) {
+    background-color: var(--color-bg-tertiary);
+}
+
+.btn--text {
+    background-color: transparent;
+    color: var(--color-accent);
+    padding: var(--spacing-1) var(--spacing-2);
+}
+
+.btn--text:hover:not(:disabled) {
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.btn--success {
+    background-color: var(--color-success);
+    color: #FFFFFF;
+}
+
+.btn--success:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.btn--danger {
+    background-color: var(--color-error);
+    color: #FFFFFF;
+}
+
+.btn--danger:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+/* Tamanhos */
+.btn--sm {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-xs);
+}
+
+.btn--lg {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: var(--font-size-base);
+}
+
+/* Com ícones */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-full);
+    background-color: transparent;
+    color: var(--color-text-primary);
+    transition: all var(--transition-base);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    background-color: var(--color-bg-tertiary);
+}
+
+.btn-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Estados de Loading */
+.btn--loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn--loading::after {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-right-color: transparent;
+    animation: spin 0.75s linear infinite;
+}
+
+/* Grupos de botões */
+.btn-group {
+    display: inline-flex;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+.btn-group .btn {
+    border-radius: 0;
+    margin: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: var(--border-radius-md);
+    border-bottom-left-radius: var(--border-radius-md);
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+    border-right: none;
+}
+
+/* Botões de IA */
+.btn--ai {
+    background: linear-gradient(135deg, var(--color-accent), #7C3AED);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn--ai::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    to {
+        left: 100%;
+    }
+}
+
+.btn--ai:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn--transparent {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: var(--color-text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn--transparent:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+} 

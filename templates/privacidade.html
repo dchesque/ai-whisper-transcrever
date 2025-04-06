@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Política de Privacidade - TranscreveAI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Política de Privacidade</h1>
+    <p class="page-subtitle">Saiba como coletamos, usamos e protegemos suas informações no TranscreveAI.</p>
+</div>
+
+<section class="privacy">
+    <div class="privacy-container">
+        <div class="privacy-section">
+            <h2 class="privacy-title">1. Introdução</h2>
+            <p class="privacy-text">Esta Política de Privacidade descreve como o TranscreveAI coleta, usa, armazena e protege suas informações pessoais. Ao utilizar nossos serviços, você concorda com as práticas descritas nesta política.</p>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">2. Informações que Coletamos</h2>
+            <p class="privacy-text">Coletamos os seguintes tipos de informações:</p>
+            <ul class="privacy-list">
+                <li>Informações de conta (e-mail)</li>
+                <li>Arquivos de áudio e vídeo enviados para transcrição</li>
+                <li>Transcrições geradas</li>
+                <li>Dados de uso do serviço</li>
+                <li>Informações técnicas (endereço IP, tipo de navegador, etc.)</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">3. Como Usamos suas Informações</h2>
+            <p class="privacy-text">Utilizamos suas informações para:</p>
+            <ul class="privacy-list">
+                <li>Fornecer e melhorar nossos serviços de transcrição</li>
+                <li>Processar seus arquivos de áudio e vídeo</li>
+                <li>Armazenar e gerenciar suas transcrições</li>
+                <li>Enviar notificações importantes sobre o serviço</li>
+                <li>Analisar e melhorar a performance do sistema</li>
+                <li>Prevenir atividades fraudulentas ou abusivas</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">4. Armazenamento e Segurança</h2>
+            <p class="privacy-text">Implementamos medidas de segurança técnicas e organizacionais para proteger suas informações:</p>
+            <ul class="privacy-list">
+                <li>Criptografia de dados em trânsito e em repouso</li>
+                <li>Acesso restrito a dados pessoais</li>
+                <li>Monitoramento regular de segurança</li>
+                <li>Exclusão automática de arquivos temporários</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">5. Compartilhamento de Informações</h2>
+            <p class="privacy-text">Não compartilhamos suas informações pessoais com terceiros, exceto:</p>
+            <ul class="privacy-list">
+                <li>Quando exigido por lei</li>
+                <li>Com provedores de serviços que nos ajudam a operar a plataforma</li>
+                <li>Para proteger nossos direitos ou propriedade</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">6. Seus Direitos</h2>
+            <p class="privacy-text">Você tem os seguintes direitos em relação aos seus dados:</p>
+            <ul class="privacy-list">
+                <li>Acessar seus dados pessoais</li>
+                <li>Corrigir dados imprecisos</li>
+                <li>Solicitar a exclusão de seus dados</li>
+                <li>Exportar seus dados</li>
+                <li>Retirar seu consentimento a qualquer momento</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">7. Cookies e Tecnologias Similares</h2>
+            <p class="privacy-text">Utilizamos cookies e tecnologias similares para melhorar sua experiência, lembrar suas preferências e analisar o uso do serviço. Você pode controlar o uso de cookies através das configurações do seu navegador.</p>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">8. Retenção de Dados</h2>
+            <p class="privacy-text">Mantemos suas informações apenas pelo tempo necessário para fornecer nossos serviços ou cumprir obrigações legais. Arquivos de áudio e vídeo são excluídos automaticamente após a transcrição ser concluída.</p>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">9. Alterações na Política</h2>
+            <p class="privacy-text">Podemos atualizar esta política periodicamente. Notificaremos você sobre alterações significativas através de um aviso em nosso site ou por e-mail.</p>
+        </div>
+
+        <div class="privacy-section">
+            <h2 class="privacy-title">10. Contato</h2>
+            <p class="privacy-text">Se você tiver dúvidas sobre esta política de privacidade ou sobre como tratamos seus dados, entre em contato conosco através do e-mail: privacidade@transcreveai.com</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: var(--spacing-8);
+    }
+
+    .page-title {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        margin-bottom: var(--spacing-2);
+        color: var(--color-primary);
+    }
+
+    .page-subtitle {
+        font-size: var(--font-size-lg);
+        color: var(--color-text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .privacy {
+        padding: var(--spacing-8) 0;
+    }
+
+    .privacy-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-4);
+    }
+
+    .privacy-section {
+        margin-bottom: var(--spacing-8);
+    }
+
+    .privacy-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .privacy-title {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        margin-bottom: var(--spacing-4);
+        color: var(--color-text-primary);
+    }
+
+    .privacy-text {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-4);
+    }
+
+    .privacy-list {
+        list-style: disc;
+        padding-left: 1.5rem;
+        margin-bottom: var(--spacing-4);
+    }
+
+    .privacy-list li {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-2);
+    }
+
+    @media (max-width: 640px) {
+        .privacy {
+            padding: var(--spacing-6) var(--spacing-3);
+        }
+
+        .page-title {
+            font-size: var(--font-size-xl);
+        }
+
+        .page-subtitle {
+            font-size: var(--font-size-md);
+        }
+
+        .privacy-title {
+            font-size: var(--font-size-lg);
+        }
+
+        .privacy-text, 
+        .privacy-list li {
+            font-size: var(--font-size-sm);
+        }
+    }
+</style>
+{% endblock %} 

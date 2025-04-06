@@ -1,0 +1,142 @@
+:root {
+  /* Modo Claro */
+  --color-bg-primary-light: #FFFFFF;
+  --color-bg-secondary-light: #F8F9FC;
+  --color-bg-tertiary-light: #F1F5F9;
+  --color-text-primary-light: #111827;
+  --color-text-secondary-light: #4B5563;
+  --color-text-tertiary-light: #9CA3AF;
+  --color-border-primary-light: #E5E7EB;
+  --color-border-secondary-light: #D1D5DB;
+  --color-accent-light: #4F46E5;
+  --color-success-light: #10B981;
+  --color-error-light: #EF4444;
+  --color-warning-light: #F59E0B;
+  --color-info-light: #3B82F6;
+  --color-primary-100: #EEF2FF;
+  --color-primary-600: #4F46E5;
+
+  /* Modo Escuro - mantido para referência futura */
+  --color-bg-primary-dark: #0F172A;
+  --color-bg-secondary-dark: #1E293B;
+  --color-bg-tertiary-dark: #334155;
+  --color-text-primary-dark: #F9FAFB;
+  --color-text-secondary-dark: #E5E7EB;
+  --color-text-tertiary-dark: #9CA3AF;
+  --color-border-primary-dark: #334155;
+  --color-border-secondary-dark: #475569;
+  --color-accent-dark: #818CF8;
+  --color-success-dark: #34D399;
+  --color-error-dark: #F87171;
+  --color-warning-dark: #FBBF24;
+  --color-info-dark: #60A5FA;
+  
+  /* Variáveis ativas (sempre modo claro) */
+  --color-bg-primary: var(--color-bg-primary-light);
+  --color-bg-secondary: var(--color-bg-secondary-light);
+  --color-bg-tertiary: var(--color-bg-tertiary-light);
+  --color-text-primary: var(--color-text-primary-light);
+  --color-text-secondary: var(--color-text-secondary-light);
+  --color-text-tertiary: var(--color-text-tertiary-light);
+  --color-border-primary: var(--color-border-primary-light);
+  --color-border-secondary: var(--color-border-secondary-light);
+  --color-accent: var(--color-accent-light);
+  --color-success: var(--color-success-light);
+  --color-error: var(--color-error-light);
+  --color-warning: var(--color-warning-light);
+  --color-info: var(--color-info-light);
+  --color-primary-bg: var(--color-primary-100);
+  --color-primary-main: var(--color-primary-600);
+
+  /* Espaçamento */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+
+  /* Tipografia */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 2.25rem;
+
+  /* Bordas */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 9999px;
+
+  /* Transições */
+  --transition-base: 150ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Configurações Base */
+html {
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.logo-icon path:first-child {
+  fill: var(--color-primary-bg);
+}
+
+.logo-icon path:last-child {
+  stroke: var(--color-primary-main);
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+/* Tipografia */
+h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+/* Utilitários */
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 var(--spacing-4);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding: 0 var(--spacing-6);
+  }
+} 

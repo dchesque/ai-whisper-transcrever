@@ -1,4 +1,10 @@
-# Arquivos temporários Python
+# Ambientes virtuais
+venv/
+env/
+ENV/
+*.env
+
+# Arquivos de configuração Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -20,13 +26,68 @@ wheels/
 .installed.cfg
 *.egg
 
-# Ambientes virtuais
-venv/
-env/
-ENV/
+# Diretórios específicos da aplicação
+uploads/
+transcricoes_pdf/
+logs/
+cache/
+database/*.db
+tmp/
+
+# Arquivos temporários do sistema
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de cobertura
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+
+# Documentação
+docs/_build/
+site/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Arquivos de distribuição
+*.zip
+*.tar.gz
+*.rar
+
+# Arquivos diversos
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
 # Pasta de uploads e arquivos temporários
-uploads/
 *.wav
 *.mp3
 *.mp4
@@ -39,13 +100,11 @@ uploads/
 *.ogg
 
 # Arquivos específicos do ambiente
-.env
 .venv
 .vscode/
 .idea/
 
 # Arquivos de cache do sistema
-.DS_Store
 Thumbs.db
 
 # Logs

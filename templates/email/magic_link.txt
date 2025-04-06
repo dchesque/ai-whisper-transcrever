@@ -1,0 +1,18 @@
+Seu link de acesso para o Transcreve.ai
+
+Olá!
+
+Você solicitou um link de acesso para sua conta no Transcreve.ai. Clique no link abaixo para acessar:
+
+{{ magic_link }}
+
+Este link é válido por 15 minutos.
+
+Se você não solicitou este link, pode ignorar este e-mail com segurança.
+
+--
+Transcreve.ai
+{{ base_url }}
+
+Termos de Uso: {{ base_url }}/termos
+Política de Privacidade: {{ base_url }}/privacidade 

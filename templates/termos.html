@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Termos de Uso - TranscreveAI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Termos de Uso</h1>
+    <p class="page-subtitle">Última atualização: 17 de agosto de 2024</p>
+</div>
+
+<div class="content-container">
+    <section class="terms-section">
+        <h2 class="section-heading">1. Aceitação dos Termos</h2>
+        <p>Ao acessar ou usar o TranscreveAI, você concorda em cumprir e estar vinculado a estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não poderá acessar ou usar nosso serviço.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">2. Descrição do Serviço</h2>
+        <p>O TranscreveAI oferece serviços de transcrição automática de arquivos de áudio e vídeo usando tecnologia de inteligência artificial. Nossos serviços permitem que os usuários convertam conteúdo de áudio e vídeo em texto.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">3. Conta de Usuário</h2>
+        <p>Para utilizar determinados recursos do nosso serviço, você pode precisar criar uma conta. Você é responsável por manter a confidencialidade de suas credenciais de conta e por todas as atividades que ocorrem em sua conta.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">4. Conteúdo do Usuário</h2>
+        <p>Ao fazer upload de arquivos para transcrição, você confirma que possui os direitos necessários sobre esse conteúdo e que ele não viola leis, regulamentos ou direitos de terceiros.</p>
+        <p>Você mantém todos os direitos sobre o conteúdo que envia para transcrição. No entanto, concede ao TranscreveAI uma licença mundial, não exclusiva e isenta de royalties para usar, reproduzir e processar seu conteúdo exclusivamente para fornecer os serviços a você.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">5. Limitações do Serviço</h2>
+        <p>A precisão das transcrições pode variar dependendo de vários fatores, incluindo a qualidade do áudio, sotaques, ruído de fundo e terminologia especializada.</p>
+        <p>Nosso serviço está sujeito a limites de uso, como tamanho máximo de arquivo, duração e número de transcrições, que podem variar de acordo com o plano de assinatura.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">6. Propriedade Intelectual</h2>
+        <p>O TranscreveAI e seu conteúdo, recursos e funcionalidades são de propriedade do TranscreveAI e estão protegidos por leis de direitos autorais, marcas registradas e outras leis de propriedade intelectual.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">7. Privacidade</h2>
+        <p>Nosso tratamento de informações pessoais é regido por nossa <a href="/privacidade">Política de Privacidade</a>, que está incorporada a estes Termos de Uso.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">8. Alterações nos Termos</h2>
+        <p>Reservamo-nos o direito de modificar estes Termos de Uso a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação dos termos atualizados. É sua responsabilidade verificar periodicamente estes termos para se manter informado sobre as atualizações.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">9. Rescisão</h2>
+        <p>Podemos encerrar ou suspender sua conta e acesso ao serviço imediatamente, sem aviso prévio ou responsabilidade, por qualquer motivo, incluindo, sem limitação, violação dos Termos de Uso.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">10. Limitação de Responsabilidade</h2>
+        <p>Em nenhuma circunstância o TranscreveAI, seus diretores, funcionários ou agentes serão responsáveis por quaisquer danos indiretos, incidentais, especiais, consequentes ou punitivos decorrentes ou relacionados ao seu uso do serviço.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">11. Lei Aplicável</h2>
+        <p>Estes Termos serão regidos e interpretados de acordo com as leis do Brasil, sem considerar suas disposições sobre conflitos de leis.</p>
+    </section>
+    
+    <section class="terms-section">
+        <h2 class="section-heading">12. Contato</h2>
+        <p>Se você tiver alguma dúvida sobre estes Termos de Uso, entre em contato conosco pelo e-mail: <a href="mailto:contato@transcreveai.com">contato@transcreveai.com</a></p>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: var(--spacing-8);
+    }
+    
+    .page-title {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-2);
+    }
+    
+    .page-subtitle {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+    }
+    
+    .content-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: var(--color-surface);
+        border-radius: var(--border-radius-lg);
+        padding: var(--spacing-8);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--color-border);
+    }
+    
+    .terms-section {
+        margin-bottom: var(--spacing-6);
+    }
+    
+    .section-heading {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        margin-bottom: var(--spacing-3);
+        color: var(--color-text-primary);
+    }
+    
+    .terms-section p {
+        margin-bottom: var(--spacing-3);
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+    }
+    
+    .terms-section a {
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .terms-section a:hover {
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+        .content-container {
+            padding: var(--spacing-4);
+            border-radius: var(--border-radius-md);
+        }
+        
+        .page-title {
+            font-size: var(--font-size-xl);
+        }
+        
+        .section-heading {
+            font-size: var(--font-size-md);
+        }
+    }
+</style>
+{% endblock %} 

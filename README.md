@@ -1,204 +1,152 @@
-# Transcrever 🎙️➡️📝
+# TranscreveAI
 
-![Transcrever Logo](https://img.shields.io/badge/Transcrever-1.0-4361ee?style=for-the-badge)
-[![Python](https://img.shields.io/badge/Python-3.7+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-2.0+-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![Whisper](https://img.shields.io/badge/OpenAI-Whisper-4CAF50?style=for-the-badge&logo=openai&logoColor=white)](https://github.com/openai/whisper)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+TranscreveAI é uma aplicação web moderna para transcrição de áudio e vídeo utilizando IA. O projeto utiliza o modelo Whisper da OpenAI para fornecer transcrições precisas em múltiplos idiomas.
 
-**Transcrever** é uma aplicação web para conversão de arquivos de áudio e vídeo em texto, utilizando a tecnologia avançada de reconhecimento de fala OpenAI Whisper. Com uma interface amigável e intuitiva, o Transcrever permite transcrever seus arquivos de mídia em diversas línguas com alta precisão.
+## Funcionalidades
 
-## 🌟 Funcionalidades
+- 🎵 Transcrição de arquivos de áudio (MP3, WAV, OGG)
+- 🎥 Transcrição de arquivos de vídeo (MP4, AVI, MOV)
+- 📺 Transcrição direta de vídeos do YouTube
+- 🌍 Suporte a múltiplos idiomas
+- 📝 Edição de transcrições em tempo real
+- 💾 Download em diversos formatos (TXT, SRT, VTT, DOCX)
+- 🎨 Interface moderna e responsiva
+- 🌓 Suporte a modo escuro
 
-- 🎯 **Transcrição Precisa**: Converte áudio/vídeo em texto com alta precisão
-- 🌎 **Detecção Automática de Idioma**: Identifica automaticamente o idioma do áudio
-- 🗣️ **Suporte Multi-idioma**: Opção para selecionar manualmente o idioma da transcrição
-- 🎛️ **Modelos de Diferentes Tamanhos**: Escolha entre diferentes modelos Whisper conforme sua necessidade de precisão e desempenho
-- 📁 **Suporte a Múltiplos Formatos**: Processa vários formatos de áudio e vídeo (MP3, WAV, MP4, MOV, AVI, MKV, WMV, TS, etc.)
-- 📋 **Interface Intuitiva**: Layout de duas colunas para fácil visualização de configurações e resultados
-- 🖥️ **Design Responsivo**: Funciona bem em dispositivos móveis e desktops
-- 📊 **Feedback em Tempo Real**: Barra de progresso para acompanhar o status da transcrição
-- 🧹 **Limpeza Automática**: Remove arquivos temporários após 10 minutos para economizar espaço
+## Requisitos
 
-## 🔧 Requisitos do Sistema
+- Python 3.8 ou superior
+- FFmpeg (para processamento de áudio/vídeo)
+- Redis (opcional, para processamento em fila)
 
-Para ambiente de desenvolvimento:
-- Python 3.7 ou superior
-- FFmpeg (para processamento de arquivos de vídeo)
-- Dependências Python (listadas em `requirements.txt`)
-
-Para produção (Vercel):
-- Conta na Vercel
-- Vercel CLI (opcional, para testes locais)
-- Configuração do buildpack Python da Vercel
-
-## 🚀 Instalação Local
+## Instalação
 
 1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/transcrever.git
-   cd transcrever
-   ```
+```bash
+git clone https://github.com/seu-usuario/transcreve-ai.git
+cd transcreve-ai
+```
 
-2. Crie e ative um ambiente virtual (recomendado):
-   ```bash
-   python -m venv venv
-   
-   # No Windows
-   venv\Scripts\activate
-   
-   # No macOS/Linux
-   source venv/bin/activate
-   ```
+2. Crie e ative um ambiente virtual:
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+```
 
 3. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Instale o FFmpeg (necessário para processamento de vídeo):
-   - **Windows**: Baixe do [site oficial](https://ffmpeg.org/download.html) e adicione ao PATH, ou use o Chocolatey:
-     ```
-     choco install ffmpeg
-     ```
-   - **macOS**:
-     ```
-     brew install ffmpeg
-     ```
-   - **Linux**:
-     ```
-     sudo apt update && sudo apt install ffmpeg
-     ```
-
-## 🎮 Como Executar Localmente
-
-1. Inicie a aplicação:
-   ```bash
-   python app.py
-   ```
-
-2. Acesse a interface web em: http://127.0.0.1:5000
-
-3. Uso da interface:
-   - Arraste e solte ou selecione um arquivo de áudio/vídeo
-   - Escolha o modelo de transcrição (base, small, medium, large)
-   - Selecione o modo de idioma (automático ou específico)
-   - Clique em "Transcrever"
-   - Acompanhe o progresso da transcrição
-   - Copie o resultado ou use conforme necessário
-
-## 🌐 Deploy na Vercel
-
-O Transcrever pode ser facilmente implantado na Vercel para disponibilizá-lo na nuvem:
-
-1. Certifique-se de ter uma conta na [Vercel](https://vercel.com/)
-
-2. Instale a Vercel CLI (opcional):
-   ```bash
-   npm install -g vercel
-   ```
-
-3. Faça login na Vercel:
-   ```bash
-   vercel login
-   ```
-
-4. Deploy básico pelo CLI:
-   ```bash
-   vercel
-   ```
-
-### Alternativa: Deploy via GitHub
-
-1. Faça fork deste repositório para sua conta GitHub
-2. Acesse o [Dashboard da Vercel](https://vercel.com/dashboard)
-3. Clique em "New Project"
-4. Selecione o repositório fork
-5. Mantenha as configurações padrão (o vercel.json já está configurado)
-6. Clique em "Deploy"
-
-### ⚠️ Limitações do Deploy na Vercel
-
-Por favor, esteja ciente das seguintes limitações ao usar a versão hospedada na Vercel:
-
-1. **Tempo de Execução**: A Vercel tem um limite de execução de 10 segundos para funções serverless no plano gratuito, o que pode não ser suficiente para transcrições de arquivos grandes.
-
-2. **Tamanho dos Arquivos**: Existe um limite de 4.5MB para upload de arquivos no plano gratuito da Vercel.
-
-3. **Armazenamento Temporário**: Os arquivos são armazenados temporariamente e são excluídos automaticamente a cada nova execução da função serverless.
-
-4. **Memória Limitada**: Pode haver problemas de memória ao utilizar modelos maiores (medium/large) para transcrição.
-
-Para casos de uso mais intensivos, considere hospedar em um servidor dedicado ou serviço cloud como AWS, Google Cloud ou Azure.
-
-## 📋 Formatos Suportados
-
-### Áudio
-- MP3 (.mp3)
-- WAV (.wav)
-- M4A (.m4a)
-- OGG (.ogg)
-- FLAC (.flac)
-
-### Vídeo
-- MP4 (.mp4)
-- MOV (.mov)
-- AVI (.avi)
-- MKV (.mkv)
-- WMV (.wmv)
-- TS (.ts) - Transport Stream
-
-## 🌐 Modelos Disponíveis
-
-| Modelo | Descrição | Uso Recomendado |
-|--------|-----------|-----------------|
-| Base | Rápido, menor precisão | Textos simples, pouca interferência de ruído |
-| Small | Equilíbrio entre velocidade e precisão | Uso geral |
-| Medium | Boa precisão | Transcrições mais importantes, áudio com ruído moderado |
-| Large | Alta precisão | Transcrições profissionais, áudio com muito ruído ou sotaques difíceis |
-
-## 📊 Desempenho
-
-O tempo de transcrição varia conforme:
-- Tamanho do arquivo de áudio/vídeo
-- Modelo escolhido
-- Hardware do seu computador
-- Complexidade do áudio (múltiplos falantes, ruído de fundo, etc.)
-
-## 🛠️ Arquitetura do Projeto
-
-```
-transcrever/
-├── app.py                # Aplicação Flask principal
-├── wsgi.py               # Ponto de entrada para Vercel/WSGI
-├── vercel.json           # Configuração de deploy na Vercel
-├── requirements.txt      # Dependências Python
-├── README.md             # Este documento
-├── templates/            # Templates HTML
-│   └── index.html        # Interface do usuário
-└── uploads/              # Pasta para arquivos temporários (apenas dev)
+```bash
+pip install -r requirements.txt
 ```
 
-## 🔍 Solução de Problemas
+4. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+```
 
-| Problema | Solução |
-|----------|---------|
-| FFmpeg não encontrado | Verifique se o FFmpeg está instalado e no PATH do sistema |
-| Erro na transcrição | Verifique se o arquivo de áudio contém fala audível e não está corrompido |
-| Memória insuficiente | Tente usar um modelo menor ou reduzir o tamanho do arquivo de áudio |
-| Erro ao processar vídeo | Verifique se o formato do vídeo é suportado pelo FFmpeg |
-| Timeout na Vercel | Os arquivos grandes podem exceder o limite de tempo de execução. Considere reduzir o tamanho do arquivo ou hospedar em outra plataforma |
+5. Inicialize o banco de dados:
+```bash
+flask db upgrade
+```
 
-## 📜 Licença
+## Executando o Projeto
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+### Usando os Scripts de Inicialização (Recomendado)
 
-## 📧 Contato
+A aplicação está configurada para ser executada na porta 3000. Use os scripts fornecidos para iniciar facilmente:
 
-Para sugestões, dúvidas ou feedback:
-- **E-mail**: exemplo@email.com
-- **GitHub Issues**: [Criar um novo issue](https://github.com/seu-usuario/transcrever/issues)
+#### Windows:
+```
+start.bat
+```
 
----
+#### Linux/Mac:
+```bash
+# Primeiro, torne o script executável
+chmod +x start.sh
+# Execute o script
+./start.sh
+```
 
-Desenvolvido com ❤️ usando tecnologia OpenAI Whisper 
+A aplicação estará disponível em `http://localhost:3000`.
+
+### Método Alternativo
+
+1. Inicie o servidor de desenvolvimento:
+```bash
+flask run --port=3000
+```
+
+2. (Opcional) Inicie o worker do Celery para processamento em background:
+```bash
+celery -A app.celery worker --loglevel=info
+```
+
+## Configuração do Ambiente de Produção
+
+### Usando Docker
+
+1. Construa a imagem:
+```bash
+docker build -t transcreve-ai .
+```
+
+2. Execute o container expondo a porta 3000:
+```bash
+docker run -d -p 3000:3000 transcreve-ai
+```
+
+### Deploy Manual
+
+1. Configure um servidor web (Nginx/Apache) para redirecionar para a porta 3000
+2. Configure o Gunicorn:
+```bash
+gunicorn -w 4 -b 127.0.0.1:3000 wsgi:app
+```
+
+## Estrutura do Projeto
+
+```
+transcreve-ai/
+├── app/
+│   ├── __init__.py
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── static/
+│   └── templates/
+├── migrations/
+├── tests/
+├── .env.example
+├── config.py
+├── requirements.txt
+├── start.bat         # Script de inicialização para Windows
+├── start.sh          # Script de inicialização para Linux/Mac
+└── wsgi.py
+```
+
+## Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Crie um Pull Request
+
+## Licença
+
+Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## Contato
+
+- Email: seu-email@exemplo.com
+- Website: https://transcreve.ai
+- Twitter: [@transcreve_ai](https://twitter.com/transcreve_ai)
+
+## Agradecimentos
+
+- [OpenAI Whisper](https://github.com/openai/whisper)
+- [Flask](https://flask.palletsprojects.com/)
+- [Celery](https://docs.celeryproject.org/)
+- Todos os contribuidores do projeto 
